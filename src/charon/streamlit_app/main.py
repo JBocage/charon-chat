@@ -42,17 +42,20 @@ if chat_history:
             _, c = st.columns([1, 10])
             c.info(entry["content"])
 
+    new_messages_placeholder = st.empty()
     new_entry_placeholder = st.empty()
-    new_entry = new_entry_placeholder.text_input(
-        "New entry", key=f"{chat_history}{len(history)}"
-    )
+
+    c1, c2 = new_entry_placeholder.columns([1, 4])
+    model_type = c1.selectbox("Model", ["gpt-3.5-turbo", "gpt4"])
+
+    new_entry = c2.text_input("New entry", key=f"{chat_history}{len(history)}")
     if new_entry:
         new_entry_placeholder.empty()
         history = save_history(
             chat_history,
             history + [{"role": "user", "content": new_entry}],
         )
-        _, c = st.columns([1, 10])
+        _, c = new_messages_placeholder.columns([1, 10])
         c.info(new_entry)
 
         with st.spinner("Assistant is thinking..."):
@@ -64,7 +67,7 @@ if chat_history:
                 + [{"role": "assistant", "content": cmpl.choices[0].message.content}],
             )
 
-        _, c = st.columns([10, 1])
+        _, c = new_messages_placeholder.columns([10, 1])
         c.success(cmpl.choices[0].message.content)
 
         st.rerun()
