@@ -1,27 +1,32 @@
 import streamlit as st
 
 from charon.utils.chatbot import chat_completion
+from charon.utils.config import CONFIG
 from charon.utils.history import (
+    delete_history,
     get_history,
     list_history_entries,
     new_history,
     save_history,
 )
 
-st.title("charon")
+st.title(CONFIG["ASSISTANT_NAME"])
 
 with st.sidebar:
-    st.title("charon")
     st.markdown("A simple chat history manager")
     chat_history = st.selectbox("Chat history", list_history_entries())
 
-    new_history_name = st.text_input("New history name")
+    if chat_history:
+        if st.button("Delete conversation"):
+            delete_history(chat_history)
+            st.rerun()
 
+    new_history_name = st.text_input("New history name")
     new_history_placeholder = st.empty()
     if new_history_name:
         if new_history_placeholder.button("Create new history"):
             new_history(new_history_name)
-            chat_history = new_history_name
+            st.rerun()
 
 if chat_history:
     history = get_history(chat_history)

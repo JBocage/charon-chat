@@ -116,3 +116,19 @@ def save_history(
         json.dump(history, file, indent=4)
 
     return history
+
+
+@_consider_history_dir_exists
+def delete_history(filename_stem: str):
+    """Delete a history file
+
+    :param filename_stem: The filename stem (without suffix) of the history file
+    :type filename_stem: str
+    :raises HistoryEntryDoesNotExistError: Raised when the history entry does not exist
+    """
+    if not (Paths.DATA / "chat_history" / (filename_stem + ".json")).exists():
+        raise HistoryEntryDoesNotExistError(
+            f"A history entry with the name '{filename_stem}' does not exist"
+        )
+
+    os.remove(Paths.DATA / "chat_history" / (filename_stem + ".json"))
