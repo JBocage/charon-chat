@@ -1,6 +1,7 @@
 import json
 import os
 import pathlib
+from functools import wraps
 from typing import List, Literal, TypedDict
 
 from charon.utils.config import CONFIG
@@ -24,6 +25,24 @@ class HistoryEntryDoesNotExistError(Exception):
     """Raised when a history entry does not exist"""
 
 
+def _create_history_dir():
+    """Create the chat history directory if it does not exist"""
+    if not (Paths.DATA / "chat_history").exists():
+        os.makedirs(Paths.DATA / "chat_history")
+
+
+def _consider_history_dir_exists(func):
+    """Decorator to check if the chat history directory exists"""
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        _create_history_dir()
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
+@_consider_history_dir_exists
 def list_history_entries() -> List[str]:
     """Returns the list of all available chat histories"""
     return [
@@ -33,6 +52,7 @@ def list_history_entries() -> List[str]:
     ]
 
 
+@_consider_history_dir_exists
 def get_history(filename_stem: str) -> List[ChatHistoryEntry]:
     """Get the history content
 
@@ -42,11 +62,11 @@ def get_history(filename_stem: str) -> List[ChatHistoryEntry]:
     :returns: The chat history
     :rtype: List[ChatHistoryEntry]
     """
-
     with open(Paths.DATA / "chat_history" / (filename_stem + ".json"), "r") as file:
         return json.load(file)
 
 
+@_consider_history_dir_exists
 def new_history(filename_stem: str) -> List[ChatHistoryEntry]:
     """Create a new history file
 
@@ -54,6 +74,7 @@ def new_history(filename_stem: str) -> List[ChatHistoryEntry]:
     :type filename_stem: str
     :raises HistoryEntryAlreadyExistsError: Raised when the history entry already exists
     """
+
     if (Paths.DATA / "chat_history" / (filename_stem + ".json")).exists():
         raise HistoryEntryAlreadyExistsError(
             f"A history entry with the name '{filename_stem}' already exists"
@@ -71,6 +92,7 @@ def new_history(filename_stem: str) -> List[ChatHistoryEntry]:
     return history
 
 
+@_consider_history_dir_exists
 def save_history(
     filename_stem: str, history: List[ChatHistoryEntry]
 ) -> List[ChatHistoryEntry]:
