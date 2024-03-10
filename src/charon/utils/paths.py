@@ -20,10 +20,13 @@ class Paths:
     ROOT = pathlib.Path(__file__).parent.parent.parent.parent
     #: The source directory of the project.
     #: This is where the source code of the project is stored.
-    SRC = ROOT / "src"
+    SRC = pathlib.Path(__file__).parent.parent.parent
 
     #: The docs directory for sphinx
     DOCS = ROOT / "docs"
+
+    #: The data storing directory
+    DATA = SRC / "charon" / "data"
 
     #: The CLI directory of the project. This is where the CLI scripts are stored.
     CLI = SRC / "charon" / "cli"
@@ -34,3 +37,5 @@ class Paths:
     STREAMLIT_APP = SRC / "charon" / "streamlit_app"
     #: The .env file of the project.
     ENV = ROOT / ".env"
+    #: The .env file of the project, but inside the charon directory.
+    ENV_INSIDE = SRC / "charon" / ".env"

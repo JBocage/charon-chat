@@ -5,7 +5,7 @@ import click
 from charon.utils.paths import Paths
 
 
-@click.command("launch-streamlit")
+@click.command("chat")
 @click.pass_context
 def launch_streamlit_app(ctx, *args, **kwargs):
     """

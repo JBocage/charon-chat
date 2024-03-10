@@ -3,6 +3,7 @@
 import click
 
 from charon import __VERSION__
+from charon.cli.commands.setup import setup
 
 from .commands.hello_world import hello_world
 from .commands.launch_api import launch_api
@@ -33,5 +34,6 @@ def cli(ctx, *args, **kwargs):
 
 cli.add_command(hello_world)
 cli.add_command(launch_api)
-cli.add_command(launch_streamlit_app)  # F:
+cli.add_command(launch_streamlit_app)
 cli.add_command(doc_cli_group)
+cli.add_command(setup)
