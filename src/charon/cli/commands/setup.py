@@ -19,3 +19,8 @@ def setup(ctx, *args, **kwargs):
 
             openai_key = input("Enter your OpenAI API key: ")
             f.write(f"OPENAI_API_KEY={openai_key}\n")
+
+        print(
+            "The .env file has been created.\n"
+            "You can now run the `charon chat` command to launch the app."
+        )

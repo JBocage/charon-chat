@@ -1,6 +1,7 @@
 click
 fastapi
 furo
+openai
 pydantic
 python-dotenv
 sphinx
