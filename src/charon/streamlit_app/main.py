@@ -38,7 +38,9 @@ if chat_history:
             c.info(entry["content"])
 
     new_entry_placeholder = st.empty()
-    new_entry = new_entry_placeholder.text_input("New entry", key=len(history))
+    new_entry = new_entry_placeholder.text_input(
+        "New entry", key=f"{chat_history}{len(history)}"
+    )
     if new_entry:
         new_entry_placeholder.empty()
         history = save_history(
@@ -61,3 +63,8 @@ if chat_history:
         c.success(cmpl.choices[0].message.content)
 
         st.rerun()
+
+else:
+    st.warning(
+        "No chat history available\nPlease create a new history from the sidebar"
+    )
