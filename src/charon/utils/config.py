@@ -1,3 +1,12 @@
+"""
+Exports the CONFIG object that is used for loading the project's config
+
+.. code-block :: python
+
+    from charon.utils.config import CONFIG
+
+    print(CONFIG)
+"""
 from functools import lru_cache
 from typing import TypedDict
 
@@ -10,7 +19,7 @@ class Config(TypedDict):
     """A dictionary that holds the configuration values."""
 
     #: An example configuration value.
-    FOO: str
+    OPENAI_API_KEY: str
 
 
 @lru_cache

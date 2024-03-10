@@ -11,7 +11,7 @@ class Paths:
 
     .. code-block:: python
 
-        from src.tmp.utils.paths import Paths
+        from CHARON.utils.paths import Paths
 
         print(Paths.ROOT)
     """
