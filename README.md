@@ -2,6 +2,12 @@
 
 ## Install
 
+### Quick install
+```bash
+pip install git+https://github.com/JBocage/charon-chat.git
+```
+You're all set, please now go to the [Use](#use) section.
+
 ### Locally
 ```bash
 # Create virtual environment
